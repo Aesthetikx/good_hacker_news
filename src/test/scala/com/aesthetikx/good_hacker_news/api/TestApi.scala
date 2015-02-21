@@ -33,6 +33,29 @@ class TestApi extends FunSpec {
       assert(story.id == 8863)
       assert(story.title == "My YC app: Dropbox - Throw away your USB drive")
     }
+
+    it("loads the top story list") {
+      val api = MockRetrofitClient.mockApi(200, storiesListFixture)
+      val latch = new CountDownLatch(1)
+      var ids: java.util.List[Integer] = null;
+
+      api.getTopStoryIds(new Callback[java.util.List[Integer]] {
+        def failure(error: RetrofitError) {
+          latch.countDown()
+        }
+
+        def success(list: java.util.List[Integer], response: Response) {
+          ids = list
+          latch.countDown()
+        }
+      })
+
+      latch.await()
+
+      assert(ids.size ==  8)
+      assert(ids.get(0) == 8414149)
+      assert(ids.get(1) == 8414078)
+    }
   }
 
   val storyFixture = """{
@@ -46,4 +69,7 @@ class TestApi extends FunSpec {
     "url" : "http://www.getdropbox.com/u/2/screencast.html"
   }"""
 
+  var storiesListFixture = "[ 8414149, 8414078, 8413972, 8411638, 8414102, 8413204, 8413100, 8413971 ]"
+
 }
+

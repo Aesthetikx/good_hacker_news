@@ -10,6 +10,9 @@ trait HackerNewsApi {
   @GET("/item/{id}.json")
   def getStory(@Path("id") id: Int, callback: Callback[Story])
 
+  @GET("/topstories.json")
+  def getTopStoryIds(callback: Callback[java.util.List[Integer]])
+
 }
 
 object Api {
