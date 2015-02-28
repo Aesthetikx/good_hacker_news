@@ -30,8 +30,14 @@ class TestApi extends FunSpec {
 
       latch.await()
 
+      assert(story != null)
+      assert(story.by == "dhouston")
       assert(story.id == 8863)
+      assert(story.kids === List(8952, 9224, 8917, 8884))
+      assert(story.score == 111)
+      assert(story.time == 1175714200)
       assert(story.title == "My YC app: Dropbox - Throw away your USB drive")
+      assert(story.url.toString == "http://www.getdropbox.com/u/2/screencast.html")
     }
 
     it("loads the top story list") {
